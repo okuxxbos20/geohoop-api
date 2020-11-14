@@ -1,6 +1,19 @@
 import express from 'express'
-
 const app: express.Express = express()
+const mongoose = require('mongoose')
+
+mongoose.Promise = global.Promise
+mongoose.connect(
+  'mongodb://localhost:27017/test',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }
+)
+mongoose.connection.on('error', (err: any) => {
+  console.error(`MongoDB connection error: ${err}`)
+  process.exit(-1)
+})
 
 // CORSの許可
 app.use((req, res, next) => {
