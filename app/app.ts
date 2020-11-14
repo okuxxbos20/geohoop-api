@@ -14,14 +14,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // GetとPostのルーティング
-const router: express.Router = express.Router()
-router.get('/api/getTest', (req:express.Request, res:express.Response) => {
-  res.send(req.query)
-})
-router.post('/api/postTest', (req:express.Request, res:express.Response) => {
-  res.send(req.body)
-})
-app.use(router)
+var router = require('./routes/v1/')
+app.use('/api/v1/', router)
 
 // 5001番ポートでAPIサーバ起動
-app.listen(5001,()=>{ console.log('Example app listening on port 5001!') })
+app.listen(5001, () =>{
+  console.log('Example app listening on port 5001!')
+})
