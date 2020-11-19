@@ -5,7 +5,8 @@ const UserSchema = new Schema({
   name: String,
   email: String,
   bio: String
+}, {
+  collection: 'testuser'
 })
 
-// スキーマをモデルとしてコンパイルし、それをモジュールとして扱えるようにする
 module.exports = mongoose.model('UserModel', UserSchema)

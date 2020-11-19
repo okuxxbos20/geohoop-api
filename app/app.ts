@@ -1,10 +1,19 @@
 import express from 'express'
+import helmet from 'helmet'
+import cors from 'cors'
 const app: express.Express = express()
-const mongoose = require('mongoose')
+app.use(helmet())
+app.use(cors())
+const bodyParser = require('body-parser')
 
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
+// CONNECT TO mongoDB
+const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 mongoose.connect(
-  'mongodb://localhost:27017/test',
+  'mongodb://localhost:27017/geohooptest',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -15,7 +24,7 @@ mongoose.connection.on('error', (err: any) => {
   process.exit(-1)
 })
 
-// CORSの許可
+// ARROW CORS
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
@@ -26,8 +35,8 @@ app.use((req, res, next) => {
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// GetとPostのルーティング
-var router = require('./routes/v1/')
+// ROUTING
+const router = require('./routes/v1/')
 app.use('/api/v1/', router)
 
 // 5001番ポートでAPIサーバ起動
