@@ -14,15 +14,15 @@ router.get('/', async(req: Req, res: Res) => {
 })
 
 // GET A USER
-router.get('/:id', (req: Req, res: Res) => {
+router.get('/:id', async(req: Req, res: Res) => {
   const uid = req.params.id
   UserModel.findById(uid).then((user: any) => {
     if (!user) {
       return res.status(404).send('NO USER FOUND')
     }
     res.send(user)
-  }).catch((e: Error) => {
-    res.status(500).send(e)
+  }).catch((err: Error) => {
+    res.status(500).send(err)
   })
 })
 
