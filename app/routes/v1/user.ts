@@ -18,11 +18,11 @@ router.get('/:id', (req: Req, res: Res) => {
   const uid = req.params.id
   UserModel.findById(uid).then((user: any) => {
     if (!user) {
-      return res.status(404).send()
+      return res.status(404).send('NO USER FOUND')
     }
     res.send(user)
   }).catch((e: Error) => {
-    res.status(500).send()
+    res.status(500).send(e)
   })
 })
 
@@ -66,10 +66,18 @@ router.put('/:id', (req: Req, res: Res) => {
         if (err){
           res.send(err)
         } else {
-          res.json({ message: 'Success To Update!' })
+          res.json({ message: `Success To Update ${user.name}!` })
         }
       })
     }
+  })
+})
+
+// DELETE ONE USER
+router.delete('/:id', (req: Req, res: Res) => {
+  const uid = req.params.id
+  UserModel.remove({ _id: uid }).then(() => {
+    res.json({ message: 'Success to Delete.' })
   })
 })
 
